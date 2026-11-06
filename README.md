@@ -1,5 +1,15 @@
 # 🔍 KeyloggerDetector — Python Edition
 
+
+## Get this repository
+
+Clone the current project (this repository's canonical GitHub URL), then follow the installation and usage steps below.
+
+```bash
+git clone https://github.com/cyberworlduniversity/KeyloggerDetector.git
+cd KeyloggerDetector
+```
+
 **Author:** hemanathan115  
 **Version:** 1.0  
 **Language:** Python 3.7+  
