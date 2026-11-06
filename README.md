@@ -96,3 +96,53 @@ Use only on systems you own or have explicit permission to scan.
 ## 📜 License
 
 MIT License — free to use, modify, and distribute.
+
+
+## Repository Quick Start
+
+Clone the canonical repository:
+
+```bash
+git clone https://github.com/cyberworlduniversity/KeyloggerDetector.git
+cd KeyloggerDetector
+```
+
+### Requirements and installation
+
+- Install Python 3.10+ and pip.
+
+```bash
+python -m pip install psutil
+```
+
+### Build / run
+
+```bash
+keylogger_detector.py
+```
+
+```bash
+python keylogger_detector.py
+```
+
+### Validation
+
+```bash
+python -m compileall -q .
+```
+
+Use only on devices you own or are explicitly authorized to inspect.
+
+### Program flow
+
+```mermaid
+flowchart TD
+    A[Start] --> B[Initialize application]
+    B --> C[Select interface or input]
+    C --> D{Ready to process?}
+    D -- No --> E[Report setup or input issue]
+    D -- Yes --> F[Run KeyloggerDetector operation]
+    F --> G[Summarize findings]
+    G --> H[Display results and exit]
+    E --> H
+```
