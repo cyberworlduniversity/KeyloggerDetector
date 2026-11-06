@@ -11,14 +11,14 @@ import os
 import sys
 import platform
 import datetime
-import subprocess
 
 try:
     import psutil
-except ImportError:
-    print("[!] psutil not found. Installing...")
-    subprocess.check_call([sys.executable, "-m", "pip", "install", "psutil"])
-    import psutil
+except ImportError as exc:
+    raise SystemExit(
+        "Missing dependency: psutil. Install it first with: "
+        "python -m pip install -r requirements.txt"
+    ) from exc
 
 # ─────────────────────────────────────────────
 # Suspicious process/file name signatures
@@ -105,7 +105,7 @@ def detect_keyboard_hooks_windows():
                           f"Suspicious DLL in PID={pid} [{name}]: {m.path}")
                     found += 1
 
-        except (psutil.NoSuchProcess, psutil.AccessDenied, Exception):
+        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess, OSError):
             continue
 
     if found == 0:
@@ -192,13 +192,13 @@ def scan_network_connections():
                 try:
                     proc = psutil.Process(conn.pid)
                     pname = proc.name()
-                except Exception:
+                except (psutil.Error, OSError):
                     pname = "unknown"
                 alert("WARNING",
                       f"Suspicious outbound connection: PID={conn.pid} [{pname}] "
                       f"-> {raddr.ip}:{raddr.port}")
                 found += 1
-        except Exception:
+        except (psutil.Error, OSError):
             continue
 
     if found == 0:
@@ -290,8 +290,7 @@ def main():
         alert("INFO", f"Platform '{system}' — skipping OS-specific checks.")
 
     print_summary()
-    print("\nScan complete. Press Enter to exit...")
-    input()
+    print("\nScan complete.")
 
 if __name__ == "__main__":
     main()
